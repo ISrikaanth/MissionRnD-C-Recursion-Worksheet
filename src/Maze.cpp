@@ -34,14 +34,32 @@ more parameters .
 */
 
 #include<stdlib.h>
+int ispath(int *maze, int rows, int columns, int i, int j)
+{
+	if (i >= 0 && i<rows&&j >= 0 && j<columns&&maze[i*columns + j] == 1)
+		return 1;
+	return 0;
+}
 int path_check(int *maze, int rows, int columns, int x1, int y1, int x2, int y2)
 {
-	//if (maze[1]==)
-	return 0;
+	if (x1 == x2&&y1 == y2)
+		return 1;
+	if (x1<0 || x1>rows || y1<0 || y1>columns || maze[x1*columns + y1] == 0)
+		return 0;
+	if (ispath(maze, rows, columns, x1 + 1, y1) == 1)
+		return path_check(maze, rows, columns, x1 + 1, y1, x2, y2);
+	else if (ispath(maze, rows, columns, x1, y1 + 1) == 1)
+		return path_check(maze, rows, columns, x1, y1 + 1, x2, y2);
+	else
+		return 0;
 }
 int path_exists(int *maze, int rows, int columns, int x1, int y1, int x2, int y2)
 {
-	if ((rows <= 0) || (columns<=0))
-	   return 0;
-	return 0;
+	if ((rows <= 0) || (columns <= 0) || (maze[0] == 0))
+		return 0;
+	int r = path_check(maze, rows, columns, x1, y1, x2, y2);
+	if (r >= 1)
+		return 1;
+	else
+		return 0;
 }

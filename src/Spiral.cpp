@@ -33,8 +33,65 @@ Note : Check the function Parameters ,Its a double pointer .
 
 #include "stdafx.h"
 #include<stdlib.h>
-
 int *spiral(int rows, int columns, int **input_array)
 {
-	return NULL;
+	int i=0,j=0,k=0,c=0,l=1,*new_array,mid1,mid2;
+	new_array = (int *)malloc(100 * sizeof(int));
+	if(rows<=0||columns<=0||input_array==NULL)
+	   return NULL;
+	mid1 = rows / 2;
+	mid2 = columns / 2;
+	if (rows == 1 && columns == 1)
+	{
+		new_array[k] = input_array[0][0];
+		return new_array;
+	}
+	else
+	{
+		while (rows >= mid1 && columns >= mid2)
+		{
+			while (j < columns)
+			{
+				new_array[k] = input_array[i][j];
+				j++;
+				k++;
+			}
+			i++;
+			j--;
+			while (i < rows)
+			{
+				new_array[k] = input_array[i][j];
+				i++;
+				k++;
+			}
+			i--;
+			j--;
+			while (j >= c)
+			{
+				new_array[k] = input_array[i][j];
+				j--;
+				k++;
+			}
+			i = rows - 2;
+			j++;
+			while (i >= l)
+			{
+				new_array[k] = input_array[i][j];
+				i--;
+				k++;
+			}
+			rows--;
+			columns--;
+			i = c + 1;
+			j = c + 1;
+			c++;
+			l++;
+		}
+		i = rows - 1;
+		j = columns - 1;
+		new_array[k] = input_array[i][j];
+		k++;
+		new_array[k] = '\0';
+		return new_array;
+	}
 }
