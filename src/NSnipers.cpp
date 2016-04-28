@@ -43,7 +43,45 @@ P.S: The Above Problem is just a modified version of a popular BackTracking prob
 */
 
 #include "stdafx.h"
+#include <stdio.h>
+int ispossible(int *battlefield, int rows, int columns, int N)
+{
+	int i, j;
+	for (i = 0; i < columns; i++)
+		if (battlefield[rows*N + i])
+			return 0;
+	for (i = rows, j = columns; i >= 0 && j >= 0; i--, j--)
+		if (battlefield[i*N + j])
+			return 0;
+	for (i = rows, j = columns; j >= 0 && i<N; i++, j--)
+		if (battlefield[i*N + j])
+			return 0;
+	return 1;
+}
+int helper(int *battlefield, int columns, int n)
+{
+	int i;
+	if (columns >= n)
+		return 1;
+
+	for (i = 0; i < n; i++)
+	{
+		if (ispossible(battlefield, i, columns, n))
+		{
+			battlefield[i*n + columns] = 1;
+			if (helper(battlefield, columns + 1,n))
+				return 1;
+			battlefield[i*n + columns] = 0;
+		}
+	}
+	return 0;
+}
 int solve_nsnipers(int *battlefield, int n)
 {
-	return 0;
+	if (battlefield == NULL)
+		return 0;
+	else if (helper(battlefield, 0, n) == 0)
+		return 0;
+	else
+		return 1;
 }
